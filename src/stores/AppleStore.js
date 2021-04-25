@@ -44,7 +44,7 @@ class AppleStore {
         this.isPicking = false
         this.buttonText = '摘苹果'
       })
-    }, 1500);
+    }, 500);
   }
 
   @action.bound eatApple(index) {
