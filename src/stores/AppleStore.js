@@ -1,7 +1,16 @@
-import { action, observable, computed, runInAction } from 'mobx'
+import { action, computed, makeAutoObservable, observable, runInAction } from 'mobx'
 
 class AppleStore {
-  @observable apples = [
+
+  constructor() {
+    makeAutoObservable(this, {
+      pickApple: true,
+      eatApple: true,
+    }, {
+      autoBind: true
+    })
+  }
+  apples = [
     {
       index: 0,
       weight: 288,
@@ -19,13 +28,13 @@ class AppleStore {
     }
   ]
 
-  @observable index = 2
+  index = 2
 
-  @observable buttonText = '摘苹果'
+  buttonText = '摘苹果'
 
-  @observable isPicking = false
+  isPicking = false
 
-  @action.bound pickApple() {
+  pickApple() {
     if (this.isPicking) return
 
     this.isPicking = true
@@ -47,34 +56,33 @@ class AppleStore {
     }, 500);
   }
 
-  @action.bound eatApple(index) {
-    console.log(index)
+  eatApple(index) {
     this.apples[index].actived = false
   }
 
-  @computed get activedApples() {
+  get activedApples() {
     return this.apples.filter(apple => apple.actived === true)
   }
 
   // 未被吃掉的水果个数
-  @computed get notEatenQuantity() {
+  get notEatenQuantity() {
     return this.apples.filter(apple => apple.actived === true).length
   }
 
   // 未被吃掉的水果克数
-  @computed get notEatenWeight() {
+  get notEatenWeight() {
     return this.apples.filter(apple => apple.actived === true).reduce((total, apple) => {
       return total += apple.weight
     }, 0)
   }
 
   // 被吃掉的水果个数
-  @computed get EatenQuantity() {
+  get EatenQuantity() {
     return this.apples.filter(apple => apple.actived === false).length
   }
 
   // 被吃掉的水果克数
-  @computed get EatenWeight() {
+  get EatenWeight() {
     return this.apples.filter(apple => apple.actived === false).reduce((total, apple) => {
       return total += apple.weight
     }, 0)
@@ -83,4 +91,4 @@ class AppleStore {
 
 const apple = new AppleStore()
 
-export default apple
+export default AppleStore
