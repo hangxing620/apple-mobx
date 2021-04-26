@@ -1,28 +1,25 @@
-import React, { Component } from 'react';
-import { inject, observer } from 'mobx-react'
+import React from 'react';
+import { observer } from 'mobx-react-lite'
+import { useRootStore } from "../stores/RootStore";
 
-@inject('todo')
-@observer
-class AddToDo extends Component {
-  handleKeyUp(e) {
-    const { addToDoEvent } = this.props.todo
+function AddToDo() {
+	const { todoStore } = useRootStore();
+  function handleKeyUp(e) {
     if (e.key === 'Enter') {
       const taskName = e.target.value
       if (taskName.trim().length === 0) {
         return
       }
-      addToDoEvent(taskName)
+      todoStore.addToDoEvent(taskName)
       e.target.value = ''
     }
   }
-	render() {
-		return (
-			<header className="header">
-				<h1>todos</h1>
-				<input className="new-todo" onKeyUp={this.handleKeyUp.bind(this)} placeholder="What needs to be done?" />
-			</header>
-		);
-	}
+  return (
+    <header className="header">
+      <h1>todos</h1>
+      <input className="new-todo" onKeyUp={handleKeyUp} placeholder="What needs to be done?" />
+    </header>
+  );
 }
 
-export default AddToDo
+export default observer(AddToDo)

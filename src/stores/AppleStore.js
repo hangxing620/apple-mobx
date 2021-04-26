@@ -1,5 +1,4 @@
-import { action, computed, makeAutoObservable, observable, runInAction } from 'mobx'
-
+import { makeAutoObservable, runInAction } from 'mobx'
 class AppleStore {
 
   constructor() {
@@ -53,7 +52,7 @@ class AppleStore {
         this.isPicking = false
         this.buttonText = '摘苹果'
       })
-    }, 500);
+    }, 200);
   }
 
   eatApple(index) {
@@ -89,6 +88,6 @@ class AppleStore {
   }
 }
 
-const apple = new AppleStore()
+
 
 export default AppleStore

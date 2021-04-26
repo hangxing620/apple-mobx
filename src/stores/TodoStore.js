@@ -1,35 +1,44 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action, computed, makeAutoObservable } from 'mobx';
 
 class TodoStore {
+
+  constructor() {
+    makeAutoObservable(this, {
+      addToDoEvent: action.bound,
+      changeToDoStatus: action.bound,
+      deleteTask: action.bound,
+      changeFilter: action.bound
+    })
+  }
   // todo 列表
-  @observable todos = [];
+  todos = [];
   // 任务筛选条件
-  @observable filter = 'all';
+  filter = 'all';
   // 添加任务
-  @action.bound addToDoEvent (taskName) {
+  addToDoEvent (taskName) {
     this.todos.push({
       taskName,
       isCompleted: false
     })
   }
   // 修改任务的状态
-  @action.bound changeToDoStatus(index, flag) {
+  changeToDoStatus(index, flag) {
     this.todos[index].isCompleted = flag
   }
   // 删除任务
-  @action.bound deleteTask(index) {
+  deleteTask(index) {
     this.todos.splice(index, 1)
   }
 
-  @computed get unfinishedTodoCount() {
+  get unfinishedTodoCount() {
     return this.todos.filter(todo => todo.isCompleted === false).length
   }
 
-  @action.bound changeFilter(condition) {
+  changeFilter(condition) {
     this.filter = condition
   }
 
-  @computed get filterTodos () {
+  get filterTodos () {
     switch (this.filter) {
       case 'all':
         return this.todos
@@ -43,6 +52,5 @@ class TodoStore {
   }
 }
 
-const todo = new TodoStore();
 
-export default todo;
+export default TodoStore;

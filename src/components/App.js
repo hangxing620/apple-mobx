@@ -1,16 +1,19 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Apple from './apple'
-import AppleStore from '../stores/AppleStore'
+import UseReducerTest from './useReuderTest'
+import ToDo from './todo'
+import { RootStore, RootStoreProvider } from '../stores/RootStore'
 
-const apple = new AppleStore()
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <Apple apple={apple} />
-      </div>
-    );
-  }
+const store = new RootStore()
+
+function App() {
+  return (
+    <RootStoreProvider store={store}>
+      <ToDo />
+      <UseReducerTest />
+      <Apple />
+    </RootStoreProvider>
+  );
 }
 
 export default App;

@@ -1,25 +1,18 @@
 import React from "react";
 import { observer } from "mobx-react-lite";
 import AppleItem from "./appleItem";
+import { useRootStore } from '../stores/RootStore'
 
-function Apple(props) {
-	const {
-		isPicking,
-		buttonText,
-		notEatenQuantity,
-		notEatenWeight,
-		EatenQuantity,
-		EatenWeight,
-		pickApple,
-	} = props.apple;
+function Apple() {
+	const {appleStore} = useRootStore()
 
 	function getAppleItem() {
 		let data = [];
-		props.apple.activedApples.forEach((apple) => {
+		appleStore.activedApples.forEach((apple) => {
 			data.push(
 				<AppleItem
 					apple={apple}
-					eatApple={props.apple.eatApple}
+					eatApple={appleStore.eatApple}
 					key={apple.index}
 				/>
 			);
@@ -42,13 +35,13 @@ function Apple(props) {
 				<div className="section">
 					<div className="head">当前</div>
 					<div className="content">
-						{notEatenQuantity}个苹果，{notEatenWeight}克
+						{appleStore.notEatenQuantity}个苹果，{appleStore.notEatenWeight}克
 					</div>
 				</div>
 				<div className="section">
 					<div className="head">已吃掉</div>
 					<div className="content">
-						{EatenQuantity}个苹果，{EatenWeight}克
+						{appleStore.EatenQuantity}个苹果，{appleStore.EatenWeight}克
 					</div>
 				</div>
 			</div>
@@ -57,10 +50,10 @@ function Apple(props) {
 
 			<div className="btn-div">
 				<button
-					className={isPicking ? "disabled" : ""}
-					onClick={() => pickApple()}
+					className={appleStore.isPicking ? "disabled" : ""}
+					onClick={() => appleStore.pickApple()}
 				>
-					{buttonText}
+					{appleStore.buttonText}
 				</button>
 			</div>
 		</div>
